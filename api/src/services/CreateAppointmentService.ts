@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
