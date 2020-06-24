@@ -3,7 +3,12 @@ import api from '../services/api';
 
 interface AuthContextData {
   name: string;
-  signIn(): void;
+  signIn(credentials: SignInCredentials): Promise<void>;
+}
+
+interface SignInCredentials {
+  email: string;
+  password: string;
 }
 
 export const AuthContext = createContext<AuthContextData>(
@@ -11,8 +16,10 @@ export const AuthContext = createContext<AuthContextData>(
 );
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const signIn = useCallback(() => {
-    console.log('sign in');
+  const signIn = useCallback(async ({ email, password }) => {
+    const response = await api.post('sessions', { email, password });
+
+    console.log(response.data);
   }, []);
 
   return (

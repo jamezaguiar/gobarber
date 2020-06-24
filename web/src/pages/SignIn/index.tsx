@@ -17,13 +17,18 @@ import Button from '../../components/Button';
 
 import { Container, Content, Background } from './styles';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useContext(AuthContext);
 
   const handleSubmit = useCallback(
-    async (data: object) => {
+    async (data: SignInFormData) => {
       try {
         formRef.current?.setErrors({});
 
@@ -38,7 +43,7 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        signIn();
+        signIn({ email: data.email, password: data.password });
       } catch (err) {
         const errors = getValidationErrors(err);
 
