@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
 import signUpBackgroundImg from '../../assets/sign-up-background.png';
@@ -20,6 +20,29 @@ export const Content = styled.div`
 
   width: 100%; /* A div ocupará 100% da tela */
   max-width: 700px; /* Com largura máxima de 700px */
+`;
+
+const appearFromRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+export const AnimationContainer = styled.div`
+  display: flex; /* Os items ficarão um ao lado do outro */
+  flex-direction: column; /* Muda a direção do flex, agora, eles ficarão um abaixo do outro */
+
+  /* As duas propriedades abaixo variam de acordo com o flex-direction */
+  align-items: center; /* Centralizando no eixo X */
+  justify-content: center; /* Centralizando no eixo Y */
+
+  animation: ${appearFromRight} 1s;
 
   form {
     margin: 80px 0;
