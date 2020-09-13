@@ -33,6 +33,7 @@
         }
       }
     ],
+    "no-useless-constructor": "off",
     "prettier/prettier": "error",
     "import/extensions": [
       "error",
