@@ -3,8 +3,9 @@ import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+
+import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 
 interface IRequestDTO {
   provider_id: string;
@@ -13,10 +14,14 @@ interface IRequestDTO {
 
 @injectable()
 class CreateAppointmentService {
+  private appointmentsRepository: IAppointmentsRepository;
+
   constructor(
     @inject('AppointmentsRepository')
-    private appointmentsRepository: IAppointmentsRepository,
-  ) {}
+    appointmentsRepository: IAppointmentsRepository,
+  ) {
+    this.appointmentsRepository = appointmentsRepository;
+  }
 
   public async execute({
     date,
