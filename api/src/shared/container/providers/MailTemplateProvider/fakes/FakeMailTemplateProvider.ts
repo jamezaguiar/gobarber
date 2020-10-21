@@ -3,10 +3,10 @@ import IMailTemplateProvider from '../models/IMailTemplateProvider';
 
 class FakeMailTemplateProvider implements IMailTemplateProvider {
   public async parse({
-    template,
+    file,
     variables,
   }: IParseMailTemplateDTO): Promise<string> {
-    return template;
+    return 'Fake Mail Content.';
   }
 }
 
