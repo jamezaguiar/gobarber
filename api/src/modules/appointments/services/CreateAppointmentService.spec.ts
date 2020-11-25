@@ -42,4 +42,18 @@ describe('CreateAppointment', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('should not be able to create appointments in past dates', async () => {
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      return new Date(2020, 4, 10, 12).getTime();
+    });
+
+    await expect(
+      createAppointment.execute({
+        date: new Date(2020, 4, 10, 11),
+        user_id: 'user',
+        provider_id: 'provider',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
