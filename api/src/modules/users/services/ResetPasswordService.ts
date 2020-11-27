@@ -9,7 +9,8 @@ import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
 interface IRequestDTO {
   token: string;
-  newPassword: string;
+  password: string;
+  password_confirmation: string;
 }
 
 @injectable()
@@ -25,11 +26,19 @@ class ResetPasswordService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ token, newPassword }: IRequestDTO): Promise<void> {
+  public async execute({
+    token,
+    password,
+    password_confirmation,
+  }: IRequestDTO): Promise<void> {
     const userToken = await this.userTokensRepository.findByToken(token);
 
     if (!userToken) {
       throw new AppError('User token does not exists.');
+    }
+
+    if (password !== password_confirmation) {
+      throw new AppError('Passwords does not match.');
     }
 
     const tokenCreatedAt = userToken.created_at;
@@ -45,7 +54,7 @@ class ResetPasswordService {
       throw new AppError('User does not exists.');
     }
 
-    user.password = await this.hashProvider.generateHash(newPassword);
+    user.password = await this.hashProvider.generateHash(password);
 
     await this.usersRepository.save(user);
   }
