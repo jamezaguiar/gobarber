@@ -43,3 +43,6 @@ tmp/*
 
 # Ignoring settings.json of workspace
 .vscode/settings.json
+
+# Environment variables
+.env
