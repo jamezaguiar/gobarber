@@ -11,7 +11,8 @@ import uploadConfig from '@config/upload';
 import { errors } from 'celebrate';
 import AppError from '@shared/errors/AppError';
 
-import routes from '@shared/infra/http/routes';
+import rateLimiter from './middlewares/rateLimiter';
+import routes from './routes';
 
 import '@shared/infra/typeorm';
 import '@shared/container';
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 3333;
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
+app.use(rateLimiter);
 app.use(routes);
 
 app.use(errors());
