@@ -1,7 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import CreateUserService from './CreateUserService';
 import UpdateProfileService from './UpdateProfileService';
 
 let fakeUsersRepository: FakeUsersRepository;
@@ -20,12 +19,7 @@ describe('UpdateProfile', () => {
   });
 
   it('should be able to update user profile', async () => {
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '12345678',
@@ -52,18 +46,13 @@ describe('UpdateProfile', () => {
   });
 
   it('should not be able to change to another user email', async () => {
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    await createUser.execute({
+    await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '12345678',
     });
 
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'Test',
       email: 'test@example.com',
       password: '12345678',
@@ -79,12 +68,7 @@ describe('UpdateProfile', () => {
   });
 
   it('should be able to update the password', async () => {
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '12345678',
@@ -102,12 +86,7 @@ describe('UpdateProfile', () => {
   });
 
   it('should not be able to update the password without old password', async () => {
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '12345678',
@@ -124,12 +103,7 @@ describe('UpdateProfile', () => {
   });
 
   it('should not be able to update the password with wrong old password', async () => {
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '12345678',
