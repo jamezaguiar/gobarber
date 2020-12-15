@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import { getDate, getDaysInMonth } from 'date-fns';
+import { getDate, getDaysInMonth, endOfDay, isAfter } from 'date-fns';
 
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
@@ -48,7 +48,9 @@ class ListProviderMonthAvailabilityService {
 
       return {
         day,
-        available: appointmentsInDay.length < 10, // Se um prestador tem mais de 10 agendamentos em um dia, sua agenda já está cheia.
+        available:
+          isAfter(endOfDay(new Date(year, month - 1, day)), new Date()) &&
+          appointmentsInDay.length < 10, // Se um prestador tem mais de 10 agendamentos em um dia, sua agenda já está cheia.
       };
     });
 
